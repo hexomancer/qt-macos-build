@@ -63,12 +63,13 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
 
       run: |
-       qmake build.pro
+       git clone --recursive https://github.com/ahrm/sioyek
+       cd mupdf
+       make
+       cd ..
+       qmake pdf_viewer_build_config.pro
        make
        ls
-       macdeployqt hello.app
-       ls
-       zip -r sioyek-release.zip hello.app
       env:
         CC:   gcc-9
         CXX:  g++-9
