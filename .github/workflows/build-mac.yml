@@ -12,37 +12,37 @@ on:
   workflow_dispatch:
 
 jobs:
-  upload-release:
+#   upload-release:
 
-    runs-on: ubuntu-18.04
-    needs: [build-mac]
+#     runs-on: ubuntu-18.04
+#     needs: [build-mac]
 
-    steps:
-    - uses: actions/checkout@v1
-    - name: create release
-      id: create_release
-      uses: actions/create-release@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false   
-    - name: download artifacts
-      uses: actions/download-artifact@v1
-      with:
-        name: uploads     
-    - name: upload mac
-      id: upload-mac
-      uses: actions/upload-release-asset@v1.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./uploads/sioyek-release.zip
-        asset_name: sioyek-release-mac.zip
-        asset_content_type: application/zip   
+#     steps:
+#     - uses: actions/checkout@v1
+#     - name: create release
+#       id: create_release
+#       uses: actions/create-release@master
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+#       with:
+#         tag_name: ${{ github.ref }}
+#         release_name: Release ${{ github.ref }}
+#         draft: false
+#         prerelease: false   
+#     - name: download artifacts
+#       uses: actions/download-artifact@v1
+#       with:
+#         name: uploads     
+#     - name: upload mac
+#       id: upload-mac
+#       uses: actions/upload-release-asset@v1.0.1
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       with:
+#         upload_url: ${{ steps.create_release.outputs.upload_url }}
+#         asset_path: ./uploads/sioyek-release.zip
+#         asset_name: sioyek-release-mac.zip
+#         asset_content_type: application/zip   
 
   build-mac:
 
@@ -54,27 +54,24 @@ jobs:
       with:
             submodules: 'recursive'
       
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v2
-      with:
-        version: '5.14.2'
+#     - name: Install Qt
+#       uses: jurplel/install-qt-action@v2
+#       with:
+#         version: '5.14.2'
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
 
       run: |
-       git clone --recursive https://github.com/ahrm/sioyek
-       cd sioyek/mupdf
-       make
-       cd ..
-       qmake pdf_viewer_build_config.pro
+       qmake build.pro
        make
        ls
+
       env:
         CC:   gcc-9
         CXX:  g++-9
-    - name: upload mac artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: uploads
-        path: sioyek-release.zip        
+#     - name: upload mac artifact
+#       uses: actions/upload-artifact@v1
+#       with:
+#         name: uploads
+#         path: sioyek-release.zip        
