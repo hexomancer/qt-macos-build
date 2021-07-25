@@ -64,7 +64,7 @@ jobs:
 
       run: |
        git clone --recursive https://github.com/ahrm/sioyek
-       cd mupdf
+       cd sioyek/mupdf
        make
        cd ..
        qmake pdf_viewer_build_config.pro
