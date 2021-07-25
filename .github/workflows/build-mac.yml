@@ -64,11 +64,9 @@ jobs:
 
       run: |
        git clone --recursive https://github.com/ahrm/sioyek
-       cd mupdf
        make
-       cd ..
        qmake pdf_viewer_build_config.pro
-       make
+       make mupdf/Makefile
        ls
       env:
         CC:   gcc-9
