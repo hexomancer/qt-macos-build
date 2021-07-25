@@ -68,7 +68,7 @@ jobs:
        make
        cd ..
        qmake pdf_viewer_build_config.pro
-       make mupdf/Makefile
+       make
        ls
       env:
         CC:   gcc-9
