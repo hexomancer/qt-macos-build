@@ -59,7 +59,7 @@ jobs:
       run: |
        qmake build.pro
        make
-       zip -r sioyek-release.zip release
+       ls
       env:
         CC:   gcc-9
         CXX:  g++-9
