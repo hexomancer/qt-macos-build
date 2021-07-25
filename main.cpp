@@ -1,13 +1,17 @@
 #include <iostream>
-#include <qapplication.h>
-#include <qpushbutton.h>
+//#include <qapplication.h>
+//#include <qpushbutton.h>
+#include <filesystem>
 
 
 int main(int argc, char** argv){
-    QApplication app(argc, argv);
+    std::filesystem::path path(".");
+    std::cout << path << "\n";
 
-    QPushButton button("Click me");
-    button.show();
-    app.exec();
+    /* QApplication app(argc, argv); */
+
+    /* QPushButton button("Click me"); */
+    /* button.show(); */
+    /* app.exec(); */
     return 0;
 }
