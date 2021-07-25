@@ -7,40 +7,42 @@ name: Mac build
 
 on:
   push:
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 jobs:
-#   upload-release:
+  upload-release:
 
-#     runs-on: ubuntu-18.04
-#     needs: [build-mac]
+    runs-on: ubuntu-18.04
+    needs: [build-mac]
 
-#     steps:
-#     - uses: actions/checkout@v1
-#     - name: create release
-#       id: create_release
-#       uses: actions/create-release@master
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
-#       with:
-#         tag_name: ${{ github.ref }}
-#         release_name: Release ${{ github.ref }}
-#         draft: false
-#         prerelease: false   
-#     - name: download artifacts
-#       uses: actions/download-artifact@v1
-#       with:
-#         name: uploads     
-#     - name: upload mac
-#       id: upload-mac
-#       uses: actions/upload-release-asset@v1.0.1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:
-#         upload_url: ${{ steps.create_release.outputs.upload_url }}
-#         asset_path: ./uploads/sioyek-release.zip
-#         asset_name: sioyek-release-mac.zip
-#         asset_content_type: application/zip   
+    steps:
+    - uses: actions/checkout@v1
+    - name: create release
+      id: create_release
+      uses: actions/create-release@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false   
+    - name: download artifacts
+      uses: actions/download-artifact@v1
+      with:
+        name: uploads     
+    - name: upload mac
+      id: upload-mac
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./uploads/sioyek-release.zip
+        asset_name: sioyek-release-mac.zip
+        asset_content_type: application/zip   
 
   build-mac:
 
@@ -66,11 +68,12 @@ jobs:
        ls
        macdeployqt hello.app
        ls
+       zip -r sioyek-release.zip hello.app
       env:
         CC:   gcc-9
         CXX:  g++-9
-#     - name: upload mac artifact
-#       uses: actions/upload-artifact@v1
-#       with:
-#         name: uploads
-#         path: sioyek-release.zip        
+    - name: upload mac artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: uploads
+        path: sioyek-release.zip        
